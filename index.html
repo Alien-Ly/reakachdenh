@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<title>Prank Sound</title>
+<style>
+.container{
+    position: relative;
+    width: 450px;
+}
+body{
+    background-color:wheat ;
+    text-align: center;
+    font-size: 70px;
+}
+button{
+    font-size:large;
+    width: 100px;
+    height: 100px;
+}
+input{
+    text-align: center;
+    font-size: 60px;
+}
+img{
+    font-size: 20px;
+    width: 900px;
+    height: 900px;
+    border-radius: 1%;
+    object-fit: cover;
+}
+#muteBtn{
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 40px;
+    font-size: 20px;
+    border-radius: 30px;
+    border: none;
+    background: rgba(0, 0, 0, 0.8);
+    color: rgb(255, 255, 255);
+    display: none;
+    cursor: pointer;
+}
+</style>
+<hr>
+<body>
+<center>
+<div class="container">
+<img src="image/reakhaha.jpg"
+onclick="startPrank()">
+ចុច លើរូបភាព
+<hr>
+</div>
+<audio id="prank" loop>
+<source src="sound/yamete_kudasai.mp3" type="audio/mpeg">
+</audio>
+<button id="muteBtn" onclick="stopSound()">🔊 Mute</button>
+<p id="clock" style="font-size:20px;font-weight:bold;"></p>
+<hr>
+<script>
+function updateClock() {
+  let now = new Date();
+  let h = now.getHours();
+  let m = now.getMinutes();
+  let s = now.getSeconds();
+  document.getElementById('clock').innerText =
+      h.toString().padStart(2,'0') + ":" +
+      m.toString().padStart(2,'0') + ":" +
+      s.toString().padStart(2,'0');
+  
+  if(h >= 8 && h < 18){
+    document.getElementById('img').style.display = 'block';
+  } else {
+    document.getElementById('img').style.display = 'none';
+  }
+}
+setInterval(updateClock, 1000);
+updateClock(); // Run immediately on load
+function startPrank(){
+    var sound = document.getElementById("prank");
+    sound.play();               // play sound
+    document.getElementById("muteBtn").style.display="block"; // show mute button
+}
+function stopSound(){
+    var sound = document.getElementById("prank");
+    sound.pause();             // stop sound
+    sound.currentTime = 0;     // reset to start
+    document.getElementById("muteBtn").style.display="none"; // hide button
+}
+
+</script>
+<button id="reset">Reset Game</button><br>
+  <div id="game" style="display: grid; grid-template-columns: repeat(3, 100px); grid-gap: 5px;">
+    <div class="cell" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; font-size: 48px; border: 1px solid #000;"></div>
+    <div class="cell" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; font-size: 48px; border: 1px solid #000;"></div>
+    <div class="cell" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; font-size: 48px; border: 1px solid #000;"></div>
+    <div class="cell" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; font-size: 48px; border: 1px solid #000;"></div>
+    <div class="cell" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; font-size: 48px; border: 1px solid #000;"></div>
+    <div class="cell" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; font-size: 48px; border: 1px solid #000;"></div>
+    <div class="cell" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; font-size: 48px; border: 1px solid #000;"></div>
+    <div class="cell" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; font-size: 48px; border: 1px solid #000;"></div>
+    <div class="cell" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; font-size: 48px; border: 1px solid #000;"></div>
+  </div>
+  <script>
+    const cells = document.querySelectorAll('.cell');
+    let turn = 'X';
+
+    function checkWin() {
+      const wins = [
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
+      ];
+      for (const [a,b,c] of wins) {
+        if (cells[a].textContent && cells[a].textContent === cells[b].textContent && cells[a].textContent === cells[c].textContent) {
+          alert(cells[a].textContent + " wins!");
+          return true;
+        }
+      }
+      return false;
+    }
+
+    cells.forEach(cell => {
+      cell.addEventListener('click', () => {
+        if (!cell.textContent) {
+          cell.textContent = turn;
+          if (!checkWin()) {
+            turn = turn === 'X' ? 'O' : 'X';
+          }
+        }
+      });
+    });
+
+    document.getElementById('reset').addEventListener('click', () => {
+      cells.forEach(cell => cell.textContent = '');
+      turn = 'X';
+    }); 
+  </script>
+  </center>
+<p>l</p>
+</body>
+</html>
